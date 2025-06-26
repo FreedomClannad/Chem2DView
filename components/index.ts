@@ -1,3 +1,3 @@
-export * from "./chem2D-svg";
-export * from "./chem2D-img";
-export * from "./chem2D-loading";
+export * from "./svg";
+export * from "./img";
+export * from "./loading";

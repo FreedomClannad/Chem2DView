@@ -1,5 +1,6 @@
 import "./App.css";
-import { Chem2DSVG } from "@";
+import { Chem2DIMG } from "@";
+import "@/utils";
 
 function App() {
 	const mol = `Benzene
@@ -34,7 +35,7 @@ function App() {
 M  END`;
 	return (
 		<div>
-			<Chem2DSVG mol={mol}></Chem2DSVG>
+			<Chem2DIMG mol={mol} placement="bottomRight"></Chem2DIMG>
 		</div>
 	);
 }

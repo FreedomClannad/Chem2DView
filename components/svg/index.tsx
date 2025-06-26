@@ -2,10 +2,10 @@ import { MolSerializer } from "ketcher-core";
 import type { LogSettings } from "ketcher-core";
 import { useEffect, useRef, memo, useState } from "react";
 import type { ReactNode, CSSProperties } from "react";
-import { RenderStruct } from "./RenderStruct";
-import type { HighlightMol } from "./RenderStruct";
+import { RenderStruct } from "@/utils";
+import type { HighlightMol } from "@/utils";
 import { v4 as uuid4 } from "uuid";
-import { Spinner } from "@/chem2D-loading";
+import { Spinner } from "@/loading";
 import "./styles.css";
 // 编写JSDoc
 /**

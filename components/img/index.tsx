@@ -1,17 +1,38 @@
 import { MolSerializer } from "ketcher-core";
 import type { LogSettings } from "ketcher-core";
-import { useEffect, useRef, memo, useState } from "react";
+import { useEffect, useRef, memo, useState, useMemo } from "react";
 import type { ReactNode, CSSProperties, MouseEvent } from "react";
-import { RenderStruct } from "@/chem2D-svg/RenderStruct";
-import type { HighlightMol } from "@/chem2D-svg/RenderStruct";
+import type { HighlightMol } from "@/utils";
 import { v4 as uuid4 } from "uuid";
-import { Spinner } from "@/chem2D-loading";
+import { Spinner } from "@/loading";
 import "./styles.css";
 import { ZoomInOutlined } from "@ant-design/icons";
 import Image from "rc-image";
 import "rc-image/assets/index.css";
-import { SvgTransformUrl } from "@/utils";
+import { SvgTransformUrl, RenderStruct } from "@/utils";
 import { defaultIcons } from "./common";
+import cn from "classnames";
+
+export type ImagePlacement = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
+
+type PlacementPosition = {
+	top?: number;
+	bottom?: number;
+	left?: number;
+	right?: number;
+};
+
+export type PreviewButtonType = {
+	previewIcon?: ReactNode;
+	className?: string;
+	style?: CSSProperties;
+};
+
+export type LoadingType = {
+	loadingIcon?: ReactNode;
+	className?: string;
+	style?: CSSProperties;
+};
 
 // 编写JSDoc
 /**
@@ -38,6 +59,9 @@ export type MolIMGProps = {
 	highlight?: HighlightMol;
 	error?: ReactNode;
 	preview?: boolean | { minScale: number; maxScale: number };
+	previewButton?: PreviewButtonType;
+	placement?: ImagePlacement | PlacementPosition;
+	loadingOptions?: LoadingType;
 };
 
 const Error = () => {
@@ -54,6 +78,7 @@ const Error = () => {
 const Chem2DIMG = memo((props: MolIMGProps) => {
 	const {
 		mol,
+		placement = "topRight",
 		id = uuid4(),
 		style,
 		rootClass = "",
@@ -63,7 +88,9 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 		options,
 		highlight,
 		error = <Error />,
-		preview = true
+		preview = true,
+		previewButton,
+		loadingOptions
 	} = props;
 	const moleculeRef = useRef<HTMLDivElement>(null);
 
@@ -73,6 +100,29 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 	const [previewVisible, setPreviewVisible] = useState<boolean>(false);
 
 	const { minScale, maxScale } = typeof preview === "object" ? preview : { minScale: 1, maxScale: 50 };
+
+	const previewBut: PreviewButtonType = useMemo(() => {
+		return {
+			previewIcon: <ZoomInOutlined />,
+			style: { fontSize: "1rem" },
+			...previewButton
+		};
+	}, [previewButton]);
+
+	const loadingOpt = useMemo(() => {
+		return {
+			loadingIcon: <Spinner />,
+			...loadingOptions
+		};
+	}, [loadingOptions]);
+
+	const placementPosition = useMemo(() => {
+		if (placement === "topLeft") return { top: 10, left: 10 };
+		else if (placement === "topRight") return { top: 10, right: 10 };
+		else if (placement === "bottomLeft") return { bottom: 10, left: 10 };
+		else if (placement === "bottomRight") return { bottom: 10, right: 10 };
+		else if (typeof placement === "object") return placement;
+	}, [placement]);
 
 	useEffect(() => {
 		// 新版加了日志, 源码是调用window上属性，为了防止和Kethcer的Editer的Window冲突，所以这里针对window的ketcher进行判断
@@ -105,7 +155,6 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 			const clientArea = moleculeRef.current;
 			const svgElementList = clientArea.querySelectorAll("svg");
 			const svgList = Array.from(svgElementList);
-			console.log(svgList);
 			svgList.map(el => {
 				if (el.parentElement === clientArea) {
 					clientArea.removeChild(el);
@@ -133,26 +182,30 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 				});
 			} catch (e) {
 				setErrorState(true);
-				console.error("渲染分子SVG错误:", e);
+				console.error("Rendering Molecule SVG Error:", e);
 			} finally {
 				setLoading(false);
 			}
 		}
 	};
 	return (
-		<div style={{ width, height, ...style }} className={["chem2d-img-container", rootClass].join(" ")}>
+		<div style={{ width, height, ...style }} className={cn("chem2d-img-container", rootClass)}>
 			{errorState ? (
 				<>{error}</>
 			) : (
-				<div className={["chem2d-img-box", boxClass].join(" ")} ref={moleculeRef}>
+				<div className={cn("chem2d-img-box", boxClass)} ref={moleculeRef}>
 					{loading && (
-						<div className="chem2d-img-loading">
-							<Spinner />
+						<div className={cn("chem2d-img-loading", loadingOpt.className)} style={loadingOpt.style}>
+							{loadingOpt.loadingIcon}
 						</div>
 					)}
 					{preview && mol && (
-						<button className="chem2d-img-preview-button" onClick={handleOpenPreview}>
-							<ZoomInOutlined />
+						<button
+							className={cn("chem2d-img-preview-button", previewBut.className)}
+							style={{ ...placementPosition, ...previewBut.style }}
+							onClick={handleOpenPreview}
+						>
+							{previewBut.previewIcon}
 						</button>
 					)}
 				</div>
