@@ -105,7 +105,7 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 
 	const previewBut: PreviewButtonType = useMemo(() => {
 		return {
-			previewIcon: <ZoomInOutlined />,
+			icon: <ZoomInOutlined />,
 			style: { fontSize: "1rem" },
 			...previewButton
 		};

@@ -1,7 +1,7 @@
 import "./App.css";
 import { Chem2DIMG } from "@";
 import "@/utils";
-import { KetcherEdit, useKetcherEditHook } from "@/ketcher-edit";
+// import { KetcherEdit, useKetcherEditHook } from "@/ketcher-edit";
 
 function App() {
 	const mol = `Benzene
@@ -34,25 +34,29 @@ function App() {
  10  8  2  0     0  0
   8  9  1  0     0  0
 M  END`;
-	const { KetcherRef } = useKetcherEditHook();
+	// const { KetcherRef } = useKetcherEditHook();
+	const highlight = {
+		atoms: [1, 2, 3],
+		bonds: [4, 5, 6]
+	};
 	return (
 		<div>
-			<Chem2DIMG mol={mol} previewButton={{ placement: "bottomRight" }}></Chem2DIMG>
+			<Chem2DIMG mol={mol} previewButton={{ placement: "bottomRight" }} highlight={highlight}></Chem2DIMG>
 
-			<div style={{ width: "1000px", height: "600px" }}>
-				<KetcherEdit
-					ref={KetcherRef}
-					staticResourcesUrl={"./"}
-					buttons={{
-						fullscreen: {
-							hidden: true
-						},
-						settings: {
-							hidden: true
-						}
-					}}
-				/>
-			</div>
+			{/*<div style={{ width: "1000px", height: "600px" }}>*/}
+			{/*	<KetcherEdit*/}
+			{/*		ref={KetcherRef}*/}
+			{/*		staticResourcesUrl={"./"}*/}
+			{/*		buttons={{*/}
+			{/*			fullscreen: {*/}
+			{/*				hidden: true*/}
+			{/*			},*/}
+			{/*			settings: {*/}
+			{/*				hidden: true*/}
+			{/*			}*/}
+			{/*		}}*/}
+			{/*	/>*/}
+			{/*</div>*/}
 		</div>
 	);
 }
