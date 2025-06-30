@@ -3864,10 +3864,10 @@ character-reference-invalid@^2.0.0:
   resolved "https://registry.yarnpkg.com/character-reference-invalid/-/character-reference-invalid-2.0.1.tgz#85c66b041e43b47210faf401278abf808ac45cb9"
   integrity sha512-iBZ4F4wRbyORVsu0jPV7gXkOsGYjGHPmAyv+HiHG8gi5PtC9KI2j1+v8/tlibRvjoWX027ypmG/n0HtO5t7unw==
 
-chem2dview@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/chem2dview/-/chem2dview-0.0.3.tgz#3efc36622583b428db5666527879e5d331a246c3"
-  integrity sha512-38B0INtyv3e9zZSBslZFKHelJoPFFUE5yFMz14MGdMJdyHd21BYltsEr2IQZ9LYcXan3WXDBfUwrMWG+L0WVXw==
+chem2dview@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/chem2dview/-/chem2dview-0.0.5.tgz#edd0e41d12a05fba70f27fef9646f2dee9fdc715"
+  integrity sha512-k3fJkzMwsRJv3Fly3MYygfFLVOLDrgXin9T3miFwjqgPCyfXfNSDPClN/hCOSy9pSKsAqzGQH61ddW31doZq5g==
   dependencies:
     "@ant-design/icons" "^6.0.0"
     classnames "^2.5.1"

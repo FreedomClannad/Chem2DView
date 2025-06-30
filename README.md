@@ -21,7 +21,7 @@ yarn dev
 
 ```tsx
 
-import { Chem2DIMG } from "Chem2DView";
+import { Chem2DIMG } from "chem2dview";
 
 function App() {
 	const mol = `Benzene
@@ -130,8 +130,8 @@ type PlacementPosition = {
 说明：此封装为分离版本，需要ketcher的indigo-service配合，相关的docker脚本命令在docker/下，按照当前版本
 
 ```tsx
-import { KetcherEdit } from "Chem2DView";
-
+import { KetcherEdit } from "chem2dview";
+import "ketcher-react/dist/index.css";
 function App() {
 	return (
 		<div>
@@ -246,8 +246,8 @@ type ButtonName =
 | `clear`             | `() => void`                                                 | 清空当前编辑器内容                             |
 
 ```tsx
-import { KetcherEdit, useKetcherEditHook } from "Chem2DView";
-
+import { KetcherEdit, useKetcherEditHook } from "chem2dview";
+import "ketcher-react/dist/index.css";
 function App() {
 	const { KetcherRef } = useKetcherEditHook();
 	return (

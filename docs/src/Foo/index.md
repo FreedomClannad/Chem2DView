@@ -1,3 +1,8 @@
+---
+title: 测试
+order: 10
+---
+
 # Foo
 
 This is an example component.

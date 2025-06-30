@@ -73,6 +73,6 @@
     "stylelint": "^14.9.1"
   },
   "dependencies": {
-    "chem2dview": "^0.0.3"
+    "chem2dview": "^0.0.5"
   }
 }
