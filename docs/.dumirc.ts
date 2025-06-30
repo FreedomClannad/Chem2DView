@@ -5,4 +5,8 @@ export default defineConfig({
   themeConfig: {
     name: 'Chem2DView',
   },
+  locales: [
+    { id: 'zh-CN', name: '中文' },
+    { id: 'en-US', name: 'EN' },
+  ],
 });

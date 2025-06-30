@@ -1,12 +1,14 @@
 ---
 hero:
-  title: library
-  description: chem2Dview分子显示
+  title: Chem2DView
+  description: Chem2DView分子显示
   actions:
-    - text: Hello
+    - text: 什么是Chem2DView
       link: /
-    - text: World
+    - text: 快速开始
       link: /
+    - text: GitHub
+      link: /  
 features:
   - title: Hello
     emoji: 💎

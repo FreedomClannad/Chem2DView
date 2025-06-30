@@ -12,10 +12,11 @@ import "rc-image/assets/index.css";
 import { SvgTransformUrl, RenderStruct } from "@/utils";
 import { defaultIcons } from "./common";
 import cn from "classnames";
+import type { ImagePreviewType } from "rc-image/lib/Image";
 
 export type ImagePlacement = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 
-type PlacementPosition = {
+export type PlacementPosition = {
 	top?: number;
 	bottom?: number;
 	left?: number;
@@ -23,13 +24,14 @@ type PlacementPosition = {
 };
 
 export type PreviewButtonType = {
-	previewIcon?: ReactNode;
+	icon?: ReactNode;
 	className?: string;
 	style?: CSSProperties;
+	placement?: ImagePlacement | PlacementPosition;
 };
 
 export type LoadingType = {
-	loadingIcon?: ReactNode;
+	icon?: ReactNode;
 	className?: string;
 	style?: CSSProperties;
 };
@@ -49,8 +51,8 @@ export type LoadingType = {
 export type MolIMGProps = {
 	mol: string;
 	style?: CSSProperties;
-	rootClass?: string;
-	boxClass?: string;
+	rootClassName?: string;
+	boxClassName?: string;
 	id?: string;
 	width?: number;
 	height?: number;
@@ -58,9 +60,8 @@ export type MolIMGProps = {
 	options?: any;
 	highlight?: HighlightMol;
 	error?: ReactNode;
-	preview?: boolean | { minScale: number; maxScale: number };
+	preview?: boolean | ImagePreviewType;
 	previewButton?: PreviewButtonType;
-	placement?: ImagePlacement | PlacementPosition;
 	loadingOptions?: LoadingType;
 };
 
@@ -77,19 +78,20 @@ const Error = () => {
  * */
 const Chem2DIMG = memo((props: MolIMGProps) => {
 	const {
-		mol,
-		placement = "topRight",
 		id = uuid4(),
+		mol,
 		style,
-		rootClass = "",
-		boxClass = "",
+		rootClassName = "",
+		boxClassName = "",
 		width = 400,
 		height = 400,
 		options,
 		highlight,
 		error = <Error />,
 		preview = true,
-		previewButton,
+		previewButton = {
+			placement: "topRight"
+		},
 		loadingOptions
 	} = props;
 	const moleculeRef = useRef<HTMLDivElement>(null);
@@ -111,18 +113,19 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 
 	const loadingOpt = useMemo(() => {
 		return {
-			loadingIcon: <Spinner />,
+			icon: <Spinner />,
 			...loadingOptions
 		};
 	}, [loadingOptions]);
 
 	const placementPosition = useMemo(() => {
-		if (placement === "topLeft") return { top: 10, left: 10 };
-		else if (placement === "topRight") return { top: 10, right: 10 };
-		else if (placement === "bottomLeft") return { bottom: 10, left: 10 };
-		else if (placement === "bottomRight") return { bottom: 10, right: 10 };
-		else if (typeof placement === "object") return placement;
-	}, [placement]);
+		if (previewButton.placement === "topLeft") return { top: 10, left: 10 };
+		else if (previewButton.placement === "topRight") return { top: 10, right: 10 };
+		else if (previewButton.placement === "bottomLeft") return { bottom: 10, left: 10 };
+		else if (previewButton.placement === "bottomRight") return { bottom: 10, right: 10 };
+		else if (typeof previewButton.placement === "object") return previewButton.placement;
+		else return { top: 10, right: 10 };
+	}, [previewButton]);
 
 	useEffect(() => {
 		// 新版加了日志, 源码是调用window上属性，为了防止和Kethcer的Editer的Window冲突，所以这里针对window的ketcher进行判断
@@ -189,14 +192,14 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 		}
 	};
 	return (
-		<div style={{ width, height, ...style }} className={cn("chem2d-img-container", rootClass)}>
+		<div style={{ width, height, ...style }} className={cn("chem2d-img-container", rootClassName)}>
 			{errorState ? (
 				<>{error}</>
 			) : (
-				<div className={cn("chem2d-img-box", boxClass)} ref={moleculeRef}>
+				<div className={cn("chem2d-img-box", boxClassName)} ref={moleculeRef}>
 					{loading && (
 						<div className={cn("chem2d-img-loading", loadingOpt.className)} style={loadingOpt.style}>
-							{loadingOpt.loadingIcon}
+							{loadingOpt.icon}
 						</div>
 					)}
 					{preview && mol && (
@@ -205,7 +208,7 @@ const Chem2DIMG = memo((props: MolIMGProps) => {
 							style={{ ...placementPosition, ...previewBut.style }}
 							onClick={handleOpenPreview}
 						>
-							{previewBut.previewIcon}
+							{previewBut.icon}
 						</button>
 					)}
 				</div>
