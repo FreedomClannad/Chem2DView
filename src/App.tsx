@@ -1,7 +1,7 @@
 import "./App.css";
 // import { Chem2DIMG } from "@";
 import "@/utils";
-import { KetcherEdit } from "@/ketcher-edit";
+// import { KetcherEdit } from "@/ketcher-edit";
 import { KetcherStandaloneEdit } from "@/ketcher-standalone-edit";
 import { useKetcherEditHook } from "@/hook";
 const mol = `Benzene

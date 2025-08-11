@@ -1,4 +1,5 @@
 import { forwardRef } from "react";
+// @ts-ignore
 import { StandaloneStructServiceProvider } from "ketcher-standalone";
 const newStructServiceProvider = new StandaloneStructServiceProvider();
 import "ketcher-react/dist/index.css";
