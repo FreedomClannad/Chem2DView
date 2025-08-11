@@ -37,7 +37,7 @@ export default defineConfig(() => {
 			},
 			rollupOptions: {
 				// 确保外部化处理那些你不想打包进库的依赖
-				external: ["react", "react/jsx-runtime", "ketcher-core", "ketcher-react"],
+				external: ["react", "react/jsx-runtime", "ketcher-core", "ketcher-react", "ketcher-store"],
 				output: {
 					manualChunks: (id: string) => {
 						if (id.includes("node_modules")) {

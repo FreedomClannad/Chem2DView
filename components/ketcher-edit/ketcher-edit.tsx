@@ -6,23 +6,16 @@ import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import type { MolfileFormat } from "ketcher-core/dist/domain/serializers";
 const newStructServiceProvider = new RemoteStructServiceProvider("/v2");
 import "ketcher-react/dist/index.css";
-export type KetcherEditHandle = {
-	ketcher: Ketcher | undefined;
-	setMoleculeRender: (mol: string) => void;
-	setMolecule: (structure: string) => void;
-	getMolecule: () => Promise<string | undefined>;
-	getSmiles: () => Promise<string | undefined>;
-	getSdf: (molfileFormat?: MolfileFormat) => Promise<string | undefined>;
-	clear: () => void;
-};
-type Props = {
+import type { KetcherEditHandle } from "@/handle/KetcherHandle.ts";
+
+export type KetcherEditProps = {
 	staticResourcesUrl?: string;
 	structServiceProvider?: StructServiceProvider;
 	buttons?: ButtonsConfig;
 	onChangeSmiles?: (smiles: string) => void;
 	onLoad?: () => void;
 };
-const KetcherEdit = forwardRef<KetcherEditHandle, Props>((props, ref) => {
+const KetcherEdit = forwardRef<KetcherEditHandle, KetcherEditProps>((props, ref) => {
 	const { buttons, structServiceProvider = newStructServiceProvider, staticResourcesUrl = "./", onChangeSmiles, onLoad } = props;
 	const [ketcher, setKetcher] = useState<Ketcher | undefined>();
 	useEffect(() => {
