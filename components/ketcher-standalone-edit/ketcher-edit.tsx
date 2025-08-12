@@ -11,7 +11,7 @@ import type { KetcherEditProps } from "@/ketcher-edit";
 const KetcherStandaloneEdit = forwardRef<KetcherEditHandle, KetcherEditProps>((props, ref) => {
 	const { structServiceProvider = newStructServiceProvider } = props;
 
-	return <KetcherEdit ref={ref} structServiceProvider={structServiceProvider} />;
+	return <KetcherEdit {...props} ref={ref} structServiceProvider={structServiceProvider} />;
 });
 
 export { KetcherStandaloneEdit };
